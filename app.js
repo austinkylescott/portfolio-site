@@ -38,13 +38,11 @@ app.use((req,res,next) => {
     next(err);
 });
 
-// no stacktraces leaked to user
 app.use((err, req, res, next) => {
+  res.locals.error = err;
+  console.log("Error Status:", err.status, err.message);  
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  res.render('error');
 });
 
 app.use((req,res) => res.send('<h1>Express is running on Port 3000</h1>'));
